@@ -42,8 +42,10 @@ void setup() {
   delay(3000);              // initialization delay (may remove later)
 }
 
+delay(5000);              // delay start of robot for 5 seconds
+
 void loop() {
-  delay(5000);              // delay start of robot for 5 seconds
+  delay(50);              // delay for time between each ping
   
   Serial.print(sonar.ping_cm()); // Send ping, get distance in cm and print result (0 = outside set distance range) in serial monitor
   Serial.println("cm");
