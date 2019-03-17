@@ -1,4 +1,18 @@
 
+//*********************************************************************
+//*         REFERENCES:
+//*  - Motor file code
+//*  - Distance_sensor file code
+//*  - QRD file code
+//*
+//*         FUNCTION:
+//*   This is the brain of the robot, controls the fighting behaviour.
+//*
+//*********************************************************************
+
+
+
+
 #include <NewPing.h>
 
 #define TRIGGER_PIN  12  // Arduino pin tied to trigger pin on the ultrasonic sensor.
@@ -18,36 +32,55 @@ const int B1B = 9;//define pin 9 for B1B
 
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(115200);     // set baud rate to 115200
   
-  pinMode(B1A,OUTPUT);// define pin as output
+  pinMode(B1A,OUTPUT);      // define pins A and B for motor B as output
   pinMode(B1B,OUTPUT);
   
-  //pinMode(A1A,OUTPUT);
-  //pinMode(A1B,OUTPUT);    
-  delay(3000);
+  pinMode(A1A,OUTPUT);      // define pins A and B for motor A as output
+  pinMode(A1B,OUTPUT);    
+  delay(3000);              // initialization delay (may remove later)
 }
 
 void loop() {
-  delay(4950);
-  delay(50); 
-  Serial.print(sonar.ping_cm()); // Send ping, get distance in cm and print result (0 = outside set distance range)
+  delay(5000);              // delay start of robot for 5 seconds
+  
+  Serial.print(sonar.ping_cm()); // Send ping, get distance in cm and print result (0 = outside set distance range) in serial monitor
   Serial.println("cm");
-  int distance = sonar.ping_cm();
-  if(distance<=20){
+
+  
+  int distance = sonar.ping_cm();   
+  
+  if(distance<=20){          // when opponent is close (20cm or less), move towards the opponent
     motorB('L');
     motorA('L');
   }
   else{
-    motorB('O');  //comment this out
-    //motorA('R');
+    motorB('O');             // remove this when both wheels are attached
+    //motorA('R');           // while opponent is not detected, keep moving in circles (one wheel is stationary and the other is moving backwards)
     //motorB('O');
   }
   
 
 }
 
-void motorB(char d)
+void motorA(char d)         //function for motor A movement
+{
+  if(d =='R'){
+    digitalWrite(A1A,LOW);
+    digitalWrite(A1B,HIGH); 
+  }else if (d =='L'){
+    digitalWrite(A1A,HIGH);
+    digitalWrite(A1B,LOW);    
+  }else{
+    //Robojax.com L9110 Motor Tutorial
+    // Turn motor OFF
+    digitalWrite(A1A,LOW);
+    digitalWrite(A1B,LOW);    
+  }
+}// motorA end
+
+void motorB(char d)          //function for motor B movement
 {
 
     if(d =='R'){
