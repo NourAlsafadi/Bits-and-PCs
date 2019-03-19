@@ -42,7 +42,7 @@ void setup() {
   delay(3000);              // initialization delay (may remove later)
 }
 
-delay(5000);              // delay start of robot for 5 seconds
+//delay(5000);              // delay start of robot for 5 seconds
 
 void loop() {
   delay(50);              // delay for time between each ping
@@ -57,10 +57,10 @@ void loop() {
     motorB('L');
     motorA('L');
   }
-  else{
-    motorB('O');             // remove this when both wheels are attached
-    //motorA('R');           // while opponent is not detected, keep moving in circles (one wheel is stationary and the other is moving backwards)
-    //motorB('O');
+  else if(distance<= 200){
+    //motorB('O');             // remove this when both wheels are attached
+    motorA('R');           // while opponent is not detected, keep moving in circles (one wheel is stationary and the other is moving backwards)
+    motorB('O');
   }
   
 
